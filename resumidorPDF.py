@@ -15,16 +15,17 @@ nltk.download('stopwords')
 
 import os
 
-pdf = "Analisis Estructurado Moderno, Edward Yourdon MET.pdf"
-if not os.path.exists(pdf):
-    print(f"Archivo no encontrado: {pdf}")
+pdf_path = "c:\\Users\\Usuario\\Downloads\\Anexo V[J].pdf"
+
+if not os.path.isfile(pdf_path):
+    print(f"Error: El archivo '{pdf_path}' no se encuentra.")
 else:
-    # Continúa con el proceso
-    print("El archivo existe. Continuando...")
+    print("El archivo se encontró correctamente.")
+
 
 def PdfToHTML():
     # Insertamos el PDF (nombre de archivo)
-    pdf = "c:\\Users\\Usuario\\Downloads\\METODOLOGÍA\\Analisis Estructurado Moderno, Edward Yourdon MET"  # Asegúrate de que el PDF esté en la misma carpeta o usa la ruta completa
+    pdf = "c:\\Users\\Usuario\\Downloads\\Anexo V[J].pdf"  # Asegúrate de que el PDF esté en la misma carpeta o usa la ruta completa
     try:
         # Convertir PDF a HTML usando fitz
         doc = fitz.open(pdf)
@@ -44,7 +45,7 @@ def PdfToHTML():
 def Resumen():
     try:
         # Leer texto del PDF
-        pdf_text = extract_text("c:\\Users\\Usuario\\Downloads\\METODOLOGÍA\\Analisis Estructurado Moderno, Edward Yourdon MET")
+        pdf_text = extract_text("c:\\Users\\Usuario\\Downloads\\Anexo V[J].pdf")
         if not pdf_text:
             raise ValueError("No se pudo extraer el texto del PDF.")
 
