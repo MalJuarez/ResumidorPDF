@@ -1,43 +1,43 @@
-# Librerías necesarias
-
-import fitz  # PyMuPDF para leer y convertir PDF a HTML
-import re
-import nltk
+import fitz  # PyMuPDF para manejar PDFs
+import re  # Para expresiones regulares
+import nltk  # Para procesamiento de lenguaje natural
+import heapq  # Para seleccionar frases más relevantes
+from bs4 import BeautifulSoup  # Para procesar texto HTML
+from pdfminer.high_level import extract_text  # Para extraer texto de PDF
 from nltk.corpus import stopwords
-from nltk import sent_tokenize, word_tokenize
-from heapq import nlargest
-from googletrans import Translator
-from pdfminer.high_level import extract_text
+from nltk.tokenize import word_tokenize, sent_tokenize
+import os  # Para manejar rutas y verificar archivos
 
 # Descargamos datos necesarios de nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 
-import os
+# Ruta del archivo PDF
+pdf_path = "c:/Users/Usuario/Downloads/METODOLOGÍA/Analisis Estructurado Moderno, Edward Yourdon MET.pdf"
 
-pdf_path = "c:\\Users\\Usuario\\Downloads\\Anexo V[J].pdf"
-
-if not os.path.isfile(pdf_path):
-    print(f"Error: El archivo '{pdf_path}' no se encuentra.")
+# Verifica si el archivo existe
+if os.path.isfile(pdf_path):
+    print(f"Archivo encontrado correctamente: {pdf_path}")
 else:
-    print("El archivo se encontró correctamente.")
+    print(f"Error: El archivo no fue encontrado en la ruta especificada: {pdf_path}")
+    exit()  # Termina el programa si no encuentra el archivo
 
 
-def PdfToHTML():
-    # Insertamos el PDF (nombre de archivo)
-    pdf = "c:\\Users\\Usuario\\Downloads\\Anexo V[J].pdf"  # Asegúrate de que el PDF esté en la misma carpeta o usa la ruta completa
+# Función para convertir PDF a HTML
+def pdf_to_html(pdf_path):
     try:
-        # Convertir PDF a HTML usando fitz
-        doc = fitz.open(pdf)
-        with open(f"{pdf}.html", "wb") as salida:
-            for pagina in doc:
-                texto = pagina.get_text("html").encode("utf8")
-                salida.write(texto)
-                salida.write(b"\n--------------------\n")
-        print("Archivo HTML generado con éxito.")
-        doc.close()
+        doc = fitz.open(pdf_path)
+        html_path = pdf_path + ".html"  # Generará un archivo HTML con la misma base del PDF
 
-        # Pasar al resumen
-        PdfToHTML()
+        with open(html_path, "wb") as salida:
+            for pagina in doc:
+                texto_html = pagina.get_text("html").encode("utf-8")
+                salida.write(texto_html)
+                salida.write(b"\n--------------------\n")
+
+        print(f"Archivo HTML generado correctamente: {html_path}")
+        return html_path
+
     except Exception as e:
         print(f"Error al convertir PDF a HTML: {e}")
+        exit()
